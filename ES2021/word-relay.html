@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>끝말잇기</title>
+	</head>
+	<body>
+		<div><span id="order">1</span>번째 참가자</div>
+		<div>제시어 : <span id="word"></span></div>
+		<input type="text" />
+		<button>입력</button>
+
+		<script>
+			// 함수 및 변수 선언 부분
+			const buttonTag = document.querySelector("button");
+			const inputTag = document.querySelector("input");
+			const wordIdTag = document.querySelector("#word");
+			const orderIdTag = document.querySelector("#order");
+			let participants;
+			let keyword;
+			let keywordNext;
+
+			const participantsCheck = () => {
+				participants = parseInt(prompt("몇 명이 참가하나요?"));
+				if (confirm("참가인원 : " + participants + "\n참가 인원 수가 맞나요?")) {
+					return participants;
+				} else {
+					return participantsCheck();
+				}
+			};
+
+			const onInput = event => {
+				keywordNext = event.target.value;
+			};
+
+			const onClickButton = () => {
+				if (!keyword || keyword[keyword.length - 1] === keywordNext[0]) {
+					// 제시어를 입력하지 않았을 때, 첫 번째 시도 or 끝말잇기 룰에 맞을 때,
+					keyword = keywordNext;
+					wordIdTag.textContent = keyword;
+					let order = Number(orderIdTag.textContent);
+					if (order + 1 > participants) {
+						orderIdTag.textContent = 1;
+					} else {
+						orderIdTag.textContent = order + 1;
+					}
+				} else {
+					// 끝말잇기 룰에 맞지 않을 때,
+					alert("올바르지 않은 단어입니다.");
+				}
+				inputTag.value = "";
+				inputTag.focus();
+			};
+		</script>
+
+		<script>
+			// 함수 실행 부분
+			participantsCheck();
+			inputTag.addEventListener("input", onInput);
+			buttonTag.addEventListener("click", onClickButton);
+		</script>
+	</body>
+</html>

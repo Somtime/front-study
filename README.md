@@ -1,14 +1,18 @@
-## ES2021 제로초 자바스크립트 강좌
+# Front End Study
+
+<details open>
+<summary>ZeroCho ES2021 자바스크립트 강좌</summary>
+
+<br>
 
 ### 2022-02-25
 
-<details open>
-<summary>제로초 ES2021 자바스크립트 강좌</summary>
+<br>
 
-- 화살표 함수(Arrow Function)
+#### 화살표 함수 (Arrow Function)
 
 ```
-- (arguments) => {
+(arguments) => {
   return arguments;
 }
 
@@ -18,5 +22,14 @@
 ```
 
 <br>
+
+#### 리스터 함수 (Callback Function)
+
+```
+TagSelector.addEventListener('eventName', CallbackFuncName);
+const CallbackFuncName = (evnet) => {
+  console.log(event.target.value);
+}
+```
 
 </details>
