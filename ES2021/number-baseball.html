@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>숫자야구</title>
+	</head>
+	<body>
+		<form action="" id="form" style="text-align: center">
+			<input type="text" id="input" maxlength="4" />
+			<button>확인</button>
+		</form>
+		<div id="logs"></div>
+
+		<script>
+			let out = 0;
+			const inputTag = document.querySelector("input");
+			const formTag = document.querySelector("form");
+			const logsTag = document.querySelector("#logs");
+
+			const numbers = [];
+			for (let i = 0; i < 9; i++) {
+				numbers.push(i + 1);
+			}
+
+			const answer = [];
+			for (let i = 0; i < 4; i++) {
+				let index = Math.floor(Math.random() * numbers.length);
+				answer.push(numbers[index]);
+				numbers.splice(index, 1);
+			}
+
+			const tries = [];
+			const checkInput = input => {
+				if (input.length !== 4) {
+					return alert("4자리 숫자를 입력해주세요.");
+				}
+				if (new Set(input).size !== 4) {
+					return alert("중복되지 않게 입력해주세요.");
+				}
+				if (tries.includes(input)) {
+					return alert("이미 시도한 값입니다.");
+				}
+				return true;
+			};
+
+			formTag.addEventListener("submit", event => {
+				event.preventDefault();
+				let input = inputTag.value;
+				inputTag.value = "";
+
+				// 입력 값 검사
+				if (!checkInput(input)) {
+					return;
+				}
+
+				if (answer.join("") === input) {
+					logsTag.textContent = "홈런!";
+					return;
+				}
+
+				let strike = 0;
+				let ball = 0;
+
+				for (let i = 0; i < answer.length; i++) {
+					let index = input.indexOf(answer[i]);
+					if (index > -1) {
+						if (index === i) {
+							strike++;
+						} else {
+							ball++;
+						}
+					}
+				}
+
+				if (strike === 0 && ball === 0) {
+					out++;
+					logsTag.append(`${input} : OUT`, document.createElement("br"));
+				} else {
+					logsTag.append(`${input} : ${strike}S${ball}B`, document.createElement("br"));
+				}
+
+				if (tries.length >= 9 || out === 3) {
+					let message = document.createTextNode(`패배! 정답은 ${answer.join("")}`);
+					logsTag.appendChild(message);
+					return;
+				}
+
+				tries.push(input);
+			});
+		</script>
+	</body>
+</html>
