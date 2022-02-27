@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>로또추첨기</title>
+	<style>
+		.ball {
+			display: inline-block;
+			border: 1px solid black;
+			border-radius: 20px;
+			width: 40px;
+			height: 40px;
+			line-height: 40px;
+			font-size: 20px;
+			text-align: center;
+			margin-right: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div id="result">추첨 결과는?</div>
+	<div id="bonus">보너스 : </div>
+	<script>
+		const resultTag = document.querySelector('#result');
+		const bonusTag = document.querySelector('#bonus');
+
+		// 피셔-예이츠 셔플 (Fisher-Yates Shuffle)
+		const array =  Array(45).fill().map((value, index) => index + 1);
+		const shuffle = [];
+
+		// While 문 사용시
+		while (array.length > 0) {
+			let random = Math.floor(Math.random() * array.length);	// random index 생성
+			let tmp = array.splice(random, 1);	// array 배열에서 선택된 index에 해당하는 값을 제거하고 array 에 넣음
+			shuffle.push(tmp[0]);	// shuffle 에 해당 값을 넣어줌
+		}
+		
+		const lotto = shuffle.slice(0, 6).sort((a, b) => a - b);
+		const bonus = shuffle[6];
+		
+		const showBall = (ballNum, targetTag) => {
+			let ballTag = document.createElement('div');
+			ballTag.className = 'ball';
+			ballTag.textContent = ballNum;
+			targetTag.appendChild(ballTag);
+		};
+
+		// let
+		for (let i = 0; i < lotto.length; i++) {
+			setTimeout(() => {
+				showBall(lotto[i], resultTag);
+			}, (i + 1) * 1000);
+		}
+
+		setTimeout(() => {
+			showBall(bonus, bonusTag);
+		}, 7000);
+	</script>
+</body>
+</html>
