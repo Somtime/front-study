@@ -76,7 +76,6 @@ const callbackFuncName = (argumentName) => () => {
 TagSelector.addEventListener('eventName', callbackFuncName(argument));
 ```
 
-
 <br>
 
 ### 2022-02-27
@@ -84,18 +83,19 @@ TagSelector.addEventListener('eventName', callbackFuncName(argument));
 <br>
 
 #### 피셔-예이츠 셔플 (Fisher-Yates Shuffle)
+
 ```
 // While 문 사용시
 const array =  Array(45).fill().map((value, index) => index + 1);
 const shuffle = [];
-  
+
 while (array.length > 0) {
   let random = Math.floor(Math.random() * array.length);	// random index 생성
   let tmp = array.splice(random, 1);	// array 배열에서 선택된 index에 해당하는 값을 제거하고 tmp 에 넣음
   shuffle.push(tmp[0]);	// shuffle 에 해당 값을 넣어줌
 }
 
-// For 문 사용시 
+// For 문 사용시
 for (let i = array.length; i > 0; i--) {
   let random = Math.floor(Math.random() * i);
   let tmp = array.splice(random, 1);
@@ -106,6 +106,7 @@ for (let i = array.length; i > 0; i--) {
 <br>
 
 #### let, var
+
 ```
 for (let i = 0; i < length; i++) {
     setTimeout(() => {
@@ -113,7 +114,9 @@ for (let i = 0; i < length; i++) {
   }, (i + 1) * 1000);
 }
 ```
+
 <i>let 으로 실행하는 경우</i> 이상 없이 실행됨
+
 ```
 for (var i = 0; i < length; i++) {
   setTimeout(() => {
@@ -121,6 +124,7 @@ for (var i = 0; i < length; i++) {
   }, (i + 1) * 1000);
 }
 ```
+
 <i>var 으로 실행하는 경우</i> var = length 에서 고정되어 출력됨
 
 ```
@@ -132,7 +136,8 @@ var 은 if, while, for, forEach 등 블록 내에서 선언되어져도 그 외�
 
 <br>
 
-#### 클로저 (Closure)
+#### 즉시 실행 함수 표현식 (Immediately-Invoked Function Expressions)
+
 ```
 for (var i = 0; i < length; i++) {
   (function(j) {
@@ -140,9 +145,45 @@ for (var i = 0; i < length; i++) {
       console.log(j);
     }, (j + 1) * 1000);
   })(i);
-
-  // TODO : Closure 알아보기
 }
 ```
+
 <i>위와같은 문제는 이처럼 함수로 감싸서 해결할 수 있음</i>
-</details>
+
+<br>
+
+### 2022-03-02
+
+#### 실행 컨택스트 (Execution Context)
+
+```
+실행 컨택스트 : 실행 가능한 코드를 형상화하고 구분하는 추상적인 개념
+             : 식별자 결정을 더욱 효율적으로 결정하기 위해 관련 정보를 모아 제공하는 객체
+종류
+- 전역 컨택스트 (Global Context)
+- 함수 컨택스트 (Functional Context)
+Global Context -> Function Context 순으로 스택-LIFO(Last In First Out)-으로 쌓임
+Functional Context 는 함수 사용 후 소멸 (Closure 제외)
+
+객체
+- Variable Object
+  Variable (Global Object - Global Context / Activation Object - Functional Context)
+  Parameter, Arguments (Functional Context)
+  함수 선언식 (표현식 제외 ex: const func = function() {})
+- Scope Chain
+  Execution Context 가 참조할 수 있는 변수, 함수 선언 등의 정보를 담고 있는 Global Object, Activation Object 를 가리키는 List 형태
+  Activation Object -> Global Object 순으로 가리키는 형태 (하위 객체 -> 상위 객체)
+  Javascript 엔진은 Scope Chain 을 통해 하위 -> 상위 객체를 순차적으로 탐색하여 변수, 함수 등을 찾음
+- this
+  this 의 Property 는 Global FunctionInvocation, (call, apply, bind), Construction, MethodInvocation 패턴으로 결정
+```
+
+##### Reference
+
+##### <a>https://poiemaweb.com/js-execution-context</a>
+
+##### <a>https://velog.io/@stampid/Execution-Context%EC%8B%A4%ED%96%89-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EB%9E%80</a>
+
+##### <a>https://ko.javascript.info/recursion#ref-27</a>
+
+  </details>
