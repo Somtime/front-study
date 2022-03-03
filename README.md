@@ -186,4 +186,73 @@ Functional Context 는 함수 사용 후 소멸 (Closure 제외)
 
 ##### <a>https://ko.javascript.info/recursion#ref-27</a>
 
-  </details>
+### 2022-03-03
+
+#### 구조 분해 할당
+
+```
+let arr = [1, 2, 3, 4, 5];
+let one = arr[0];
+let two = arr[1];
+let three = arr[2];
+let four = arr[3];
+let five = arr[4];
+==
+let [ one, two, three, four, five ] = arr;
+
+중간 값을 안 받을 땐, 해당 인덱스 비워주면 됨
+
+let [ one, , , four, five ] = arr;
+```
+
+```
+let options = {
+  title: "Menu",
+  height: 200,
+  width: 100
+};
+
+let {...rest} = options; // 이렇게 받아주면
+
+rest = {
+  title: "Menu",
+  height: 200,
+  width: 100
+}; // rest 에 다 들어감
+
+let {...rest} = options; // 이 경우엔
+
+title = "Menu";
+
+rest = {
+  height: 200,
+  width: 100
+}; // 이처럼 들어감
+```
+
+<i>중첩 구조 분해</i>
+
+```
+let options = {
+  size: {
+    width: 100,
+    height: 200
+  },
+  items: ["Cake", "Donut"],
+  extra: true
+};
+
+let {
+  size: {
+    width, => *
+    height => *
+  },
+  items: [item1, item2], => *
+  title = "Menu" => *
+} = options;
+
+```
+
+<i>이렇게 할 경우에는 size, itmes, extra 를 제외한 width, height, item1, item2, title 변수가 선언 됨</i>
+
+</details>
