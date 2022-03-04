@@ -186,6 +186,8 @@ Functional Context 는 함수 사용 후 소멸 (Closure 제외)
 
 ##### <a>https://ko.javascript.info/recursion#ref-27</a>
 
+<br>
+
 ### 2022-03-03
 
 #### 구조 분해 할당
@@ -254,5 +256,41 @@ let {
 ```
 
 <i>이렇게 할 경우에는 size, itmes, extra 를 제외한 width, height, item1, item2, title 변수가 선언 됨</i>
+
+<br>
+
+### 2022-03-04
+
+#### Shllow Copy, Deep Copy, Reference
+
+```
+const object = {
+	nested: {
+		key: value
+	}
+};
+```
+
+<i>Shllow Copy</i>
+
+```
+한 단계까지는 복사하지만 그 이후의 값은 참조
+
+const copy = { ...object };
+```
+
+<i>Deep Copy</i>
+
+```
+중첩된 모든 객체를 복사
+
+const copy = JSON.parse(JSON.stringify(object));
+```
+
+##### Reference
+
+##### <a>https://roseline.oopy.io/dev/javascript-back-to-the-basic/shallow-copy-deep-copy</a>
+
+##### <a>https://helloinyong.tistory.com/267</a>
 
 </details>
