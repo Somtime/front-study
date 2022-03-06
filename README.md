@@ -348,5 +348,23 @@ document.body.onclick = function() {
 
 <br>
 
+#### Class
 
+```
+class ClassName {
+  constructor (variable) {
+    this.variable = variable;
+    ...
+  }
+  methodName(args) {
+    console.log(this.variable); 
+  }
+  tag.addEventListener("eventName", function() {
+    console.log(this); // tag EventListener 가 this 에 tag 를 가리키게 함
+  })
+  tag.addEventListener("eventName", () => {
+    console.log(this); // ClassName => 화살표 함수의 상위 객체
+  })
+}
+```
 </details>

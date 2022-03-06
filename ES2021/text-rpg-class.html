@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>텍스트 RPG</title>
+	</head>
+	<body style="text-align: center">
+		<form id="start-screen">
+			<input type="text" id="name-input" />
+			<button id="start">시작</button>
+		</form>
+
+		<div id="screen">
+			<div id="hero-stat">
+				<span id="hero-name"></span>
+				<span id="hero-level"></span>
+				<span id="hero-hp"></span>
+				<span id="hero-xp"></span>
+				<span id="hero-att"></span>
+			</div>
+		</div>
+
+		<form id="game-menu" style="display: none">
+			<div id="menu-1">1. 모험</div>
+			<div id="menu-2">2. 휴식</div>
+			<div id="menu-3">3. 종료</div>
+			<input type="text" id="menu-input" />
+			<button id="menu-button">입력</button>
+		</form>
+
+		<form id="battle-menu" style="display: none">
+			<div id="menu-1">1. 공격</div>
+			<div id="menu-2">2. 회복</div>
+			<div id="menu-3">3. 도망</div>
+			<input type="text" id="battle-input" />
+			<button id="battle-button">입력</button>
+		</form>
+		<div id="message"></div>
+		<div id="monster-stat">
+			<span id="monster-name"></span>
+			<span id="monster-hp"></span>
+			<span id="monster-att"></span>
+		</div>
+
+		<script>
+			const startScreenForm = document.querySelector("#start-screen");
+			const gameMenuForm = document.querySelector("#game-menu");
+			const battleMenuForm = document.querySelector("#battle-menu");
+
+			// Hero
+			const heroName = document.querySelector("#hero-name");
+			const heroLevel = document.querySelector("#hero-level");
+			const heroHp = document.querySelector("#hero-hp");
+			const heroXp = document.querySelector("#hero-xp");
+			const heroAtt = document.querySelector("#hero-att");
+
+			// Monster
+			const monsterName = document.querySelector("#monster-name");
+			const monsterHp = document.querySelector("#monster-hp");
+			const monsterAtt = document.querySelector("#monster-att");
+
+			class Game {
+				constructor(name) {
+					this.monster = null;
+					this.hero = null;
+					this.monsterList = [
+						{ name: "슬라임", hp: 25, att: 10, xp: 10 },
+						{ name: "스켈레톤", hp: 50, att: 15, xp: 20 },
+						{ name: "마왕", hp: 150, att: 45, xp: 50 },
+					];
+					this.start(name);
+				}
+				start(name) {
+					gameMenuForm.addEventListener("submit", this.onGameMenuInput);
+					battleMenuForm.addEventListener("submiit", this.onBattleMenuInput);
+					this.changeScreen("game");
+					this.hero = new Hero(this, name);
+					this.updateHeroStat();
+				}
+				changeScreen(screen) {
+					if (screen === "start") {
+						startScreenForm.style.display = "block";
+						gameMenuForm.style.display = "none";
+						battleMenuForm.style.display = "none";
+					} else if (screen === "game") {
+						startScreenForm.style.display = "none";
+						gameMenuForm.style.display = "block";
+						battleMenuForm.style.display = "none";
+					} else if (screen === "battle") {
+						startScreenForm.style.display = "none";
+						gameMenuForm.style.display = "none";
+						battleMenuForm.style.display = "block";
+					}
+				}
+				onGameMenuInput = (event) => {
+					event.preventDefault();
+					const input = event.target['menu-input'].value;
+					if (input === "1" || input === "모험") {
+						this.changeScreen("battle");
+					} else if (input === "2" || input === "휴식") {
+					} else if (input === "3" || input === "종료") {
+					}
+				}
+				onBattleMenuInput = (event) => {
+					event.preventDefault();
+					const input = event.target['battle-input'].value;
+					if (input === "1" || input === "공격") {
+					} else if (input === "2" || input === "회복") {
+					} else if (input === "3" || input === "도망") {
+						this.changeScreen("game");
+					}
+				}
+				updateHeroStat() {
+					const { hero } = this;
+					if (hero === null) {
+						heroName.textContent = '';
+						heroLevel.textContent = '';
+						heroHp.textContent = '';
+						heroXp.textContent = '';
+						heroAtt.textContent = '';
+						return;
+					}
+					heroName.textContent = hero.name;
+					heroLevel.textContent = `${hero.lev}Lev`;
+					heroHp.textContent = `HP: ${hero.hp}/${hero.maxHp}`;
+					heroXp.textContent = `XP: ${hero.xp}/${hero.lev * 15}`;
+					heroAtt.textContent = `ATT: ${hero.att}`;
+				}
+			}
+
+			class Hero {
+				constructor(game, name) {
+					this.game = game;
+					this.name = name;
+					this.lev = 1;
+					this.hp = 100;
+					this.maxHp = 100;
+					this.xp = 0;
+					this.att = 10;
+				}
+				attack(target) {
+					target.hp -= this.att;
+				}
+				heal(monster) {
+					this.hp += 20;
+					this.hp -= monster.att;
+				}
+			}
+
+			class Monster {
+				constructor(game, nmae, hp, att, xp) {
+					this.game = game;
+					this.name = name;
+					this.hp = hp;
+					this.maxHp = hp;
+					this.xp = xp;
+					this.att = att;
+				}
+				attack(target) {
+					target.hp -= this.att;
+				}
+			}
+
+			let game = null;
+
+			startScreenForm.addEventListener("submit", event => {
+				event.preventDefault();
+				const name = event.target["name-input"].value;
+				const game = new Game(name);
+			});
+
+			gameMenuForm.addEventListener("submit", event => {
+				event.preventDefault();
+				const input = event.target["menu-input"].value;
+				if (input === "1" || input === "모험") {
+				} else if (input === "2" || input === "휴식") {
+				} else if (input === "3" || input === "종료") {
+				}
+			});
+
+			battleMenuForm.addEventListener("submit", event => {
+				event.preventDefault();
+				const input = event.target['battle-input'].value;
+				if (input === "1" || "공격") {
+					hero.attack(monster);
+					// monster.attack(hero);
+					heroHp.textContent = `HP: ${hero.hp}/${hero.maxHp}`;
+					monsterHp.textContent = `HP: ${monster.hp}/${monster.maxHp}`;
+					message.textContent = `${hero.att}의 데미지를 주고, ${monster.att}의 데미지를 받았다.`;
+					input = "";
+				} else if (input === "2" || "회복") {
+				} else if (input === "3" || "도망") {
+				}
+			});
+		</script>
+	</body>
+</html>
