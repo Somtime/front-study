@@ -69,6 +69,14 @@
 				hp: 100,
 				xp: 0,
 				att: 10,
+				attack(monster) {
+					monster.hp -= this.att;
+					this.hp -= monster.att;
+				},
+				heal(monster) {
+					this.hp += 20;
+					this.hp -= monster.att;
+				}
 			};
 
 			let monster = null;
@@ -106,6 +114,21 @@
 					monsterAtt.textContent = `ATT: ${monster.att}`;
 				} else if (input === "2" || input === "휴식") {
 				} else if (input === "3" || input === "종료") {
+				}
+			});
+
+			battleMenuForm.addEventListener("submit", event => {
+				event.preventDefault();
+				const input = event.target['battle-input'].value;
+				if (input === "1" || "공격") {
+					hero.attack(monster);
+					// monster.attack(hero);
+					heroHp.textContent = `HP: ${hero.hp}/${hero.maxHp}`;
+					monsterHp.textContent = `HP: ${monster.hp}/${monster.maxHp}`;
+					message.textContent = `${hero.att}의 데미지를 주고, ${monster.att}의 데미지를 받았다.`;
+					input = "";
+				} else if (input === "2" || "회복") {
+				} else if (input === "3" || "도망") {
 				}
 			});
 		</script>

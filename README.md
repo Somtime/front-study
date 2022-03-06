@@ -1,5 +1,7 @@
 # Front End Study
 
+##### TODO : JavaScript bind, call, apply, new
+
 <details open>
 <summary>ZeroCho ES2021 자바스크립트 강좌</summary>
 
@@ -292,5 +294,59 @@ const copy = JSON.parse(JSON.stringify(object));
 ##### <a>https://roseline.oopy.io/dev/javascript-back-to-the-basic/shallow-copy-deep-copy</a>
 
 ##### <a>https://helloinyong.tistory.com/267</a>
+
+<br>
+
+### 2022-03-06
+
+#### this
+
+자바스크립트에서 this 의 기본값은 window
+```
+console.log(this); // window
+```
+
+<br>
+
+생성자나 객체 내의 함수의 경우에 this 는 해당 인스턴스 객체를 참조
+```
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+Person.prototype.sayHi = function() {
+  console.log(this.name, this.age);
+}
+```
+
+EventListener, Jquery 함수에서는 해당 태그 객체를 참조
+```
+document.body.onclick = function() {
+  console.log(this); // <body>
+}
+
+$('div').on('click', function() {
+  console.log(this); // div
+});
+```
+
+하지만 그 내부 함수에서는 this 를 명시적으로 전달하지 않아서 window 를 참조  
+여기에서 화살표 함수를 사용하게 되면 이는 상위 객체의 this를 가져오기 때문에 정상적으로 this 를 참조해줄 수 있음
+```
+document.body.onclick = function() {
+  console.log(this); // <div>
+  const inner = () => {
+    console.log('inner', this); // inner <div>
+  }
+  inner();
+});
+```
+##### Reference
+
+##### https://www.zerocho.com/category/JavaScript/post/5b0645cc7e3e36001bf676eb
+
+<br>
+
 
 </details>
